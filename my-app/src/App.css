@@ -73,3 +73,14 @@ label {
 .jumbotron{
   margin-top: 100px;
 }
+
+.card{
+  width: 18rem;
+  align-content: center;
+}
+
+.cat1{
+  width: 15rem;
+  height: 400px;
+  
+}

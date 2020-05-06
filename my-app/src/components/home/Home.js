@@ -37,20 +37,20 @@ export default class Home extends Component {
             //     </header>
             //   </div>
 
-            <div class="container">
+            <div className="container">
 
-                <div class="row">
-                    <div class="col-lg-3">
-                        <h1 class="my-4">GoodReads</h1>
-                        <div class="list-group">
-                            <Link to="#" class="list-group-item">All</Link>
-                            <Link to="#" class="list-group-item">Read</Link>
-                            <Link to="#" class="list-group-item">Currently Reading</Link>
-                            <Link to="#" class="list-group-item">Want To Read</Link>
+                <div className="row">
+                    <div className="col-lg-3">
+                        <h1 className="my-4">GoodReads</h1>
+                        <div className="list-group">
+                            <Link to="#" className="list-group-item">All</Link>
+                            <Link to="#" className="list-group-item">Read</Link>
+                            <Link to="#" className="list-group-item">Currently Reading</Link>
+                            <Link to="#" className="list-group-item">Want To Read</Link>
                         </div>
                     </div>
 
-                    <div class="col-lg-9">
+                    <div className="col-lg-9">
                         <header className="jumbotron">
                             <h3>{this.state.content}</h3>
                         </header>

@@ -10,6 +10,7 @@ import Profile from "./components/profile/profile";
 import BoardUser from "./components/userboard/userBoard";
 import BoardAdmin from "./components/AdminBoard/adminBoard";
 import About from './components/about/about'
+import Catigories from './components/catigories/catigoris'
 
 class App extends Component {
   constructor(props) {
@@ -58,6 +59,11 @@ class App extends Component {
               <li className="nav-item">
                 <Link to={"/about"} className="nav-link">
                   About
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/catigories"} className="nav-link">
+                  Catigories
                 </Link>
               </li>
 
@@ -124,6 +130,7 @@ class App extends Component {
               <Route exact path="/profile" component={Profile} />
               <Route path="/user" component={BoardUser} />
               <Route path="/about" component={About} />
+              <Route path="/catigories" component={Catigories} />
               <Route path="/admin" component={BoardAdmin} />
             </Switch>
           </div>

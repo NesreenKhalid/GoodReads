@@ -9,16 +9,17 @@ import Home from "./components/home/Home";
 import Profile from "./components/profile/profile";
 import BoardUser from "./components/userboard/userBoard";
 import BoardAdmin from "./components/AdminBoard/adminBoard";
-import About from './components/about/about'
-import Catigories from './components/catigories/catigoris'
+import About from './components/about/about';
+import Catigories from './components/catigories/catigoris';
+import Books from './components/books/Books';
+import BookDetails from './components/bookDetails/BookDetails'
+import Author from './components/author/Auther';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
-
-    this.state = {
-       
+    this.state = {   
       showAdminBoard: false,
       currentUser: undefined
     };
@@ -30,7 +31,6 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: AuthService.getCurrentUser(),
-        // showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
         showAdminBoard: user.roles.includes("ROLE_ADMIN")
       });
     }
@@ -57,24 +57,21 @@ class App extends Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link to={"/about"} className="nav-link">
-                  About
-                </Link>
-              </li>
-              <li className="nav-item">
                 <Link to={"/catigories"} className="nav-link">
                   Catigories
                 </Link>
               </li>
-
-              {/* {showModeratorBoard && (
-                <li className="nav-item">
-                  <Link to={"/mod"} className="nav-link">
-                    Moderator Board
-                  </Link>
-                </li>
-              )} */}
-
+              <li className="nav-item">
+                <Link to={"/books"} className="nav-link">
+                  Books
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/about"} className="nav-link">
+                  About
+                </Link>
+              </li>
+              
               {showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
@@ -130,6 +127,9 @@ class App extends Component {
               <Route exact path="/profile" component={Profile} />
               <Route path="/user" component={BoardUser} />
               <Route path="/about" component={About} />
+              <Route path="/books" component={Books} />
+              <Route path="/authorDetails" component={Author}/>
+              <Route path="/bookDetails" component={BookDetails} />
               <Route path="/catigories" component={Catigories} />
               <Route path="/admin" component={BoardAdmin} />
             </Switch>

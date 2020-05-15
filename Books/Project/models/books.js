@@ -1,12 +1,18 @@
 const mongoose = require('mongoose');
-const userShelvesandReveiewsModel = require('./userShelves&Reviews');
 
 
 const bookSchema = new mongoose.Schema({
-    name: { type: String, required: true, unique: true },
+    name: { type: String, required: [true, 'sorry Name Is required and must be unique'], unique: true },
     image: { type: String, data: Buffer },
     authId: { type: mongoose.Schema.Types.ObjectId, ref: 'author' },
     catId: { type: mongoose.Schema.Types.ObjectId, ref: 'categories' },
+    userShelvesandReveiews: [{
+        userId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: [true, 'userId is required and must be unique'], unique: true },
+        review: { type: String },
+        rating: { type: Number, min: [1, 'it must be at least 1 number'], max: [5, 'sorry the mmaximum number of stars is 5'], maxlength: [1, 'rating must be one number'] },
+        shelve: { type: String, required: [true, 'sorry the of shelve of the book is required'], enum: { values: ['Reading', 'Read', 'Wants to read'], message: 'Sorry the value of shelves must be one of this Read,Reading or Wants to read' } },
+        date: { type: Date, required: true, default: Date.now }
+    }],
     totalRatings: { type: Number },
     avgRating: { type: Number },
     productionDate: { type: Date, required: true }
@@ -14,39 +20,6 @@ const bookSchema = new mongoose.Schema({
 
 
 
-bookSchema.pre('find', async function () {
-    userShelvesandReveiewsModel.getReveiewInfo((err, results) => {
-        if (!err) {
-            results.map(async (element, err) => {
-                if (!err) {
-                    try {
-                        console.log("try entered");
-                         await bookModel.findById(element._id, async function (err, doc) {
-                            if (doc) {
-                                console.log("document found");
-                                doc.totalRatings = element.count;
-                                doc.avgRating = element.avg_rating;
-                                await doc.save(function (err) {
-                                    if (!err) return console.log("updated sucessfully");
-                                    return console.log(err);
-                                });
-                            } else {
-                                console.log(err);
-                            }
-                        });
-                    } catch (err) {
-                        console.log(err);
-                    }
-                    return element;
-                } else {
-                    return console.log(err);
-                }
-            })
-        } else {
-            return console.log(err);
-        }
-    })
-})
 
 const bookModel = mongoose.model('book', bookSchema)
 

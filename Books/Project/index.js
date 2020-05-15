@@ -4,7 +4,6 @@ const port = process.env.PORT || 3000;
 const mongoose = require('mongoose');
 const mngoosePort = process.env.MONGOPORT || 'mongodb://localhost:27017/GoodReads'
 const bookRouter = require('./routes/book');
-const userShelvesandReviewsRouter = require('./routes/userShelves&Reviews');
 
 
 app.use(express.json());
@@ -13,7 +12,6 @@ app.use('/static', express.static('static'));
 
 
 app.use('/book', bookRouter);
-app.use('/userShelvesandReviews', userShelvesandReviewsRouter)
 
 
 mongoose.connect(mngoosePort, {

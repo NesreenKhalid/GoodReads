@@ -37,8 +37,20 @@ router.get('/:bookId', async (req, resp) => {
 
 
 router.post('/', upload.single('image'), async (req, resp) => {
-    const bookData = req.body;
-    const book = new bookModel({ ...bookData, image: req.file.path });
+    console.log(req.body);
+    const book = new bookModel({
+        name: req.body.name,
+        image: req.file.path,
+        authId: req.body.authId,
+        catId: req.body.catId,
+        userShelvesandReveiews: {
+            userId: req.body.userId,
+            review: req.body.review,
+            rating: req.body.rating,
+            shelve: req.body.shelve,
+        },
+        productionDate: req.body.productionDate
+    });
     try {
         const postResult = await book.save();
         return resp.json(postResult);
@@ -49,10 +61,47 @@ router.post('/', upload.single('image'), async (req, resp) => {
 
 
 
+router.patch('/UserShelvesandReviews/:bookId', async (req, resp) => {
+    global.total_rating = 0;
+    global.average_rating = 0;
+    let GetByIdResult = await bookModel.findById(req.params.bookId);
+    GetByIdResult.userShelvesandReveiews.map((el, err) => {
+        if (el.rating) {
+            average_rating = average_rating + el.rating;
+            total_rating = total_rating + 1;
+        } else {
+            average_rating = 0;
+            total_rating = 0;
+        }
+        return el;
+    });
+    total_rating = total_rating + 1;
+    average_rating = (average_rating) + (parseInt(req.body.rating));
+    try {
+        const updateResult = await bookModel.findByIdAndUpdate(req.params.bookId, {
+            '$addToSet': {
+                userShelvesandReveiews: {
+                    userId: req.body.userId,
+                    review: req.body.review,
+                    rating: req.body.rating,
+                    shelve: req.body.shelve,
+                },
+            },
+            totalRatings: total_rating,
+            avgRating: (average_rating / total_rating)
+        },
+            { new: true });
+        return resp.json(updateResult);
+    } catch (err) {
+        resp.json(err);
+    }
+})
+
+
+
 router.patch('/:bookId', async (req, resp) => {
     try {
-        const updateResult = await bookModel.findByIdAndUpdate(req.params.bookId, { name: req.body.name, image: req.body.image, authId: req.body.authId, catId: req.body.catId, productionDate: req.body.productionDate }, { new: true });
-        console.log(updateResult);
+        const updateResult = await bookModel.findByIdAndUpdate(req.params.bookId, req.body, { new: true });
         return resp.json(updateResult);
     } catch (err) {
         resp.json(err);
@@ -63,7 +112,7 @@ router.patch('/:bookId', async (req, resp) => {
 
 router.delete('/:bookId', async (req, resp) => {
     try {
-        const deleteResult = await bookModel.findByIdAndDelete(req.params.userId);
+        const deleteResult = await bookModel.findByIdAndDelete(req.params.bookId);
         resp.json("Deleted Sucessfully");
     } catch (err) {
         resp.json("something went wrong");

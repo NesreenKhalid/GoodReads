@@ -2,6 +2,8 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const AuthorModel = require('../models/author');
+const bookModel = require('../models/books');
+
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -38,9 +40,29 @@ router.get('/', (request, response) => {
 })
 router.get('/:authorID', (request, response) => {
     const authorID = request.params.authorID
-    AuthorModel.findById(authorID).exec((err, author) => {
+    bookModel.find({'authId': authorID}).exec((err, author) => {
         response.json(author)
     })
+    // AuthorModel.findById(authorID).exec((err, author) => {
+    //     response.json(author)
+    // })
+})
+router.get('/:authorID/details/:userId', (request, response) => {
+    try{
+        const authorID = request.params.authorID 
+        let details = {}
+        AuthorModel.findById(authorID).exec((err, author) => {
+            details['auth'] = author
+        })
+        bookModel.find({'authId': authorID, 'userShelvesandReveiews.userId': userId}).exec((err, books) => {
+            details['books'] = books
+        })
+    
+        return response.json(details)
+    }catch{
+        resp.json("something went wrong");
+    }
+    
 })
 router.post('/', upload.single('authorImage'), (request, response) => {
     const idInsideObject = { _id: new mongoose.Types.ObjectId(),authorImage:request.file.path }

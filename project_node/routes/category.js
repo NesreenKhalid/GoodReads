@@ -27,8 +27,6 @@ router.post('/', (request, response) => {
         console.log(err)
         // response.send("cannot connect to database")
         response.send(err)
-
-
     })
 });
 router.patch('/:categoryID', (request, response) => {

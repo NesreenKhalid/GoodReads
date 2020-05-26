@@ -48,16 +48,21 @@ router.get('/:authorID', (request, response) => {
     // })
 })
 router.get('/:authorID/details/:userId', (request, response) => {
-    const authorID = request.params.authorID 
-    let details = {}
-    AuthorModel.findById(authorID).exec((err, author) => {
-        details['auth'] = author
-    })
-    bookModel.find({'authId': authorID, 'userShelvesandReveiews.userId': userId}).exec((err, books) => {
-        details['books'] = books
-    })
-
-    response.json(details)
+    try{
+        const authorID = request.params.authorID 
+        let details = {}
+        AuthorModel.findById(authorID).exec((err, author) => {
+            details['auth'] = author
+        })
+        bookModel.find({'authId': authorID, 'userShelvesandReveiews.userId': userId}).exec((err, books) => {
+            details['books'] = books
+        })
+    
+        return response.json(details)
+    }catch{
+        resp.json("something went wrong");
+    }
+    
 })
 router.post('/', upload.single('authorImage'), (request, response) => {
     const idInsideObject = { _id: new mongoose.Types.ObjectId(),authorImage:request.file.path }

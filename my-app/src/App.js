@@ -11,6 +11,7 @@ import BoardUser from "./components/userboard/userBoard";
 import BoardAdmin from "./components/AdminBoard/adminBoard";
 import About from './components/about/about'
 import Catigories from './components/catigories/catigoris'
+import Book from './components/book/Book'
 
 class App extends Component {
   constructor(props) {
@@ -56,14 +57,20 @@ class App extends Component {
                   Home
                 </Link>
               </li>
+              
               <li className="nav-item">
-                <Link to={"/about"} className="nav-link">
-                  About
+                <Link to={"/books"} className="nav-link">
+                  Books
                 </Link>
               </li>
               <li className="nav-item">
                 <Link to={"/catigories"} className="nav-link">
                   Catigories
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to={"/about"} className="nav-link">
+                  About
                 </Link>
               </li>
 
@@ -131,6 +138,7 @@ class App extends Component {
               <Route path="/user" component={BoardUser} />
               <Route path="/about" component={About} />
               <Route path="/catigories" component={Catigories} />
+              <Route path="/books" component={Book} />
               <Route path="/admin" component={BoardAdmin} />
             </Switch>
           </div>

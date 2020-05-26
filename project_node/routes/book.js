@@ -3,7 +3,7 @@ const bookModel = require('../models/books');
 const multer = require('multer');
 const diskStorage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, '../uploads');
+        cb(null, './uploads/');
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);

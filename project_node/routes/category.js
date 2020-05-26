@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const CategoryModel = require('../models/category');
-
+const bookModel = require('../models/books');
 
 router.get('/', (request, response) => {
     CategoryModel.find({}).exec((err, allCategory) => {
@@ -11,9 +11,12 @@ router.get('/', (request, response) => {
 })
 router.get('/:categoryID', (request, response) => {
     const categoryID = request.params.categoryID
-    CategoryModel.findById(categoryID).exec((err, category) => {
-        response.json(category)
-    })
+    bookModel.find({'catId':categoryID}).exec((err, category) => {
+            response.json(category)
+        })
+    // CategoryModel.findById(categoryID).exec((err, category) => {
+    //     response.json(category)
+    // })
 })
 router.post('/', (request, response) => {
     const idInsideObject = { _id: new mongoose.Types.ObjectId() }

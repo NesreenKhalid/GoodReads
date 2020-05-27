@@ -12,6 +12,7 @@ import BoardAdmin from "./components/AdminBoard/adminBoard";
 import About from './components/about/about'
 import Catigories from './components/catigories/catigoris'
 import Book from './components/book/Book'
+import BookDetails from './components/bookDetails/BookDetails'
 
 class App extends Component {
   constructor(props) {
@@ -19,7 +20,7 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-       
+
       showAdminBoard: false,
       currentUser: undefined
     };
@@ -57,7 +58,7 @@ class App extends Component {
                   Home
                 </Link>
               </li>
-              
+
               <li className="nav-item">
                 <Link to={"/books"} className="nav-link">
                   Books
@@ -113,20 +114,20 @@ class App extends Component {
                 </li>
               </div>
             ) : (
-              <div className="navbar-nav ml-auto">
-                <li className="nav-item">
-                  <Link to={"/login"} className="nav-link">
-                    Login
+                <div className="navbar-nav ml-auto">
+                  <li className="nav-item">
+                    <Link to={"/login"} className="nav-link">
+                      Login
                   </Link>
-                </li>
+                  </li>
 
-                <li className="nav-item">
-                  <Link to={"/register"} className="nav-link">
-                    Sign Up
+                  <li className="nav-item">
+                    <Link to={"/register"} className="nav-link">
+                      Sign Up
                   </Link>
-                </li>
-              </div>
-            )}
+                  </li>
+                </div>
+              )}
           </nav>
 
           <div className="container mt-3">
@@ -140,6 +141,7 @@ class App extends Component {
               <Route path="/catigories" component={Catigories} />
               <Route path="/books" component={Book} />
               <Route path="/admin" component={BoardAdmin} />
+              <Route path="/bookDetails" component={BookDetails} />
             </Switch>
           </div>
         </div>

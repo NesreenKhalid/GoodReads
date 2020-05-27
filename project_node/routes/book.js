@@ -71,8 +71,6 @@ router.post('/', upload.single('image'), async (req, resp) => {
     }
 });
 
-
-
 router.patch('/UserShelvesandReviews/:bookId', async (req, resp) => {
     global.total_rating = 0;
     global.average_rating = 0;

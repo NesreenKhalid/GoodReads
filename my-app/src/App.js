@@ -139,6 +139,7 @@ class App extends Component {
               <Route path="/about" component={About} />
               <Route path="/catigories" component={Catigories} />
               <Route path="/books" component={Book} />
+               
               <Route path="/admin" component={BoardAdmin} />
             </Switch>
           </div>

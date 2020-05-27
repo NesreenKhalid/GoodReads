@@ -5,7 +5,7 @@ const AuthorSchema = new mongoose.Schema({
         required:true},
     firstName:{type:String,required:true,minlength:3,maxlength:15},
     lastName:{type:String,required:true,minlength:3,maxlength:15},
-    dateOfBirthdateOfBirth:{type:Date
+    dateOfBirth:{type:Date
         //,
         // required:true
     },

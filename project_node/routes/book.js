@@ -36,7 +36,7 @@ router.get('/:bookId', async (req, resp) => {
 
 router.get('/:userId/all', async (req, resp) => {
     try {
-        const GetByIdResult = await bookModel.find({'userShelvesandReveiews.userId': req.params.userId});
+        const GetByIdResult = await bookModel.find({ 'userShelvesandReveiews.userId': req.params.userId });
         return resp.json(GetByIdResult);
     } catch (err) {
         resp.json("something went wrong");
@@ -46,8 +46,10 @@ router.get('/:userId/all', async (req, resp) => {
 router.get('/:userId/:shelve', async (req, resp) => {
     try {
         const GetByIdResult = await bookModel.find(
-            {'userShelvesandReveiews.userId': req.params.userId,
-             'userShelvesandReveiews.shelve': req.params.shelve});
+            {
+                'userShelvesandReveiews.userId': req.params.userId,
+                'userShelvesandReveiews.shelve': req.params.shelve
+            });
         return resp.json(GetByIdResult);
     } catch (err) {
         resp.json("something went wrong");

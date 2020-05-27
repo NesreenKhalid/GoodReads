@@ -2,23 +2,23 @@ import React, { Component } from "react";
 import axios from 'axios'
 import { Link } from "react-router-dom";
 
-export default class UserTable extends Component {
+export default class wantTOReadTable extends Component {
     state = {
-        tableRows: []
+        wantTOReadRows: []
     }
 
     componentDidMount() {
         axios.get('Localhost:8000/book/').then(res => {
             this.setState({
-                tableRows: res.data
+                wantTOReadRows: res.data
             })
         })
     }
     render() {
-        const { tableRows } = this.state
-        const rowsList = tableRows.map(row => {
+        const { wantTOReadRows } = this.state
+        const rowsList = wantTOReadRows.map(row => {
             return (
-                <tr key={row._id}>
+                <tr key={row_id}>
                     <td><img src={row.image}></img></td>
                     <td>{row.name}</td>
                     <td>{row.avgRating}</td>

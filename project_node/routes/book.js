@@ -36,7 +36,7 @@ router.get('/:bookId', async (req, resp) => {
 
 router.get('/:userId/all', async (req, resp) => {
     try {
-        const GetByIdResult = await bookModel.find({'userShelvesandReveiews.userId': req.params.userId});
+        const GetByIdResult = await bookModel.find({ 'userShelvesandReveiews.userId': req.params.userId });
         return resp.json(GetByIdResult);
     } catch (err) {
         resp.json("something went wrong");
@@ -46,13 +46,36 @@ router.get('/:userId/all', async (req, resp) => {
 router.get('/:userId/:shelve', async (req, resp) => {
     try {
         const GetByIdResult = await bookModel.find(
-            {'userShelvesandReveiews.userId': req.params.userId,
-             'userShelvesandReveiews.shelve': req.params.shelve});
+            {
+                'userShelvesandReveiews.userId': req.params.userId,
+                'userShelvesandReveiews.shelve': req.params.shelve
+            });
         return resp.json(GetByIdResult);
     } catch (err) {
         resp.json("something went wrong");
     }
 });
+
+
+router.get('/userShelvesandReviews/getList/:userId', async (req, res) => {
+    try {
+        const list = await bookModel.find({
+            'userShelvesandReveiews.userId': req.params.userId,
+        });
+        list.map((item)=>{
+            if (item.userId == req.params.userId){
+                bookModel.update(item._id,{'$set': {
+                    'item.$.review': req.body.review,
+                    'item.$.rating': req.body.rating,
+                    'item.$.shelve': req.body.shelve
+                }},(result)=>{return res.json(result)})
+            }
+        })
+        return res.json(list);
+    } catch (err) {
+        res.json(err);
+    }
+})
 
 router.post('/', upload.single('image'), async (req, resp) => {
     console.log(req.body);

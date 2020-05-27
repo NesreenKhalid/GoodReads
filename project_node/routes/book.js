@@ -59,19 +59,25 @@ router.get('/:userId/:shelve', async (req, resp) => {
 
 router.get('/userShelvesandReviews/getList/:userId', async (req, res) => {
     try {
+       /* console.log(req.body);
         const list = await bookModel.find({
             'userShelvesandReveiews.userId': req.params.userId,
-        });
-        list.map((item)=>{
-            if (item.userId == req.params.userId){
-                bookModel.update(item._id,{'$set': {
-                    'item.$.review': req.body.review,
-                    'item.$.rating': req.body.rating,
-                    'item.$.shelve': req.body.shelve
-                }},(result)=>{return res.json(result)})
-            }
-        })
-        return res.json(list);
+        });*/
+        console.log(list.userShelvesandReveiews);
+        /*list.map((item) => {
+            if (item.userId == req.params.userId) {*/
+                bookModel.update(item._id, {
+                    '$set': {
+                        'item.$.review': req.body.review,
+                        'item.$.rating': req.body.rating,
+                        'item.$.shelve': req.body.shelve
+                    }
+                }, (result) => {
+                    console.log(result);
+                })
+            /*}
+        })*/
+        //return res.json(list);
     } catch (err) {
         res.json(err);
     }

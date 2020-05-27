@@ -8,7 +8,7 @@ export default class UserTable extends Component {
     }
 
     componentDidMount() {
-        axios.get('Localhost:8000/book/').then(res => {
+        axios.get('Localhost:8000/book/:userid/').then(res => {
             this.setState({
                 tableRows: res.data
             })

@@ -54,6 +54,27 @@ router.get('/:userId/:shelve', async (req, resp) => {
     }
 });
 
+
+router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
+    try {
+        const result = await bookModel.update({
+            '_id': req.params.bookId,
+            'userShelvesandReveiews.userId': req.params.userId
+        }, {
+            '$set': {
+                'userShelvesandReveiews.$.userId': req.params.userId,
+                'userShelvesandReveiews.$.review': req.body.review,
+                'userShelvesandReveiews.$.rating': req.body.rating,
+                'userShelvesandReveiews.$.shelve': req.body.shelve
+            }
+        }, { 'upsert': true })
+        console.log(result)
+        return res.json(result.n);
+    } catch (err) {
+        res.json(err);
+    }
+})
+
 router.post('/', upload.single('image'), async (req, resp) => {
     console.log(req.body);
     const book = new bookModel({

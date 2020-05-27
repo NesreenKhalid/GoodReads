@@ -13,6 +13,7 @@ import About from './components/about/about'
 import Catigories from './components/catigories/catigoris'
 import Book from './components/book/Book'
 import BookDetails from './components/bookDetails/BookDetails'
+import CategoryBooks from './components/categoryBooks/categoryBooks'
 
 class App extends Component {
   constructor(props) {
@@ -139,7 +140,9 @@ class App extends Component {
               <Route path="/user" component={BoardUser} />
               <Route path="/about" component={About} />
               <Route path="/catigories" component={Catigories} />
+              <Route path="/catigories/:id" component={CategoryBooks} />
               <Route path="/books" component={Book} />
+               
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/bookDetails" component={BookDetails} />
             </Switch>

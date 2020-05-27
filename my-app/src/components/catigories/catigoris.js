@@ -24,7 +24,7 @@ export default class Catigories extends Component {
             return (
                 <div key={catigory._id}>
                         <div className="cat">
-                        <Link to="#" className="list-group-item"><h5 className="card-title">{catigory.categoryName}</h5></Link>   
+                        <Link to={`/catigories/${catigory._id}`} className="list-group-item"><h5 className="card-title">{catigory.categoryName}</h5></Link>   
                         </div>
                 </div>
             )

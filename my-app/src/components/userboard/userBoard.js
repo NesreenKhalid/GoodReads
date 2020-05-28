@@ -20,11 +20,11 @@ export default class BoardUser extends Component {
                             <div className="list-group">
                                 <Link to="/all" className="list-group-item">All</Link>
                                 <Link to="/read" className="list-group-item">Read</Link>
-                                <Link to="/reading " className="list-group-item">Currently Reading</Link>
+                                <Link to="/reading" className="list-group-item">Currently Reading</Link>
                                 <Link to="/wantToRead" className="list-group-item">Want To Read</Link>
                             </div>
                         </div>
-                        <div class="col-lg-9 table">
+                        <div className="col-lg-9 table">
 
                             <div className="container mt-3">
                                 <Switch>

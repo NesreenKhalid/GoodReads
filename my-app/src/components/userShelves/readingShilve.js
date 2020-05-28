@@ -20,7 +20,7 @@ export default class ReadingTable extends Component {
         })
     }
     render() {
-        const currentUserID=this.currentUser.id
+        const {id}=this.state.currentUser
         const { readingTableRow } = this.state
         const rowsList = readingTableRow.map(row => {
             return (
@@ -30,7 +30,7 @@ export default class ReadingTable extends Component {
                     <td>{row.avgRating}</td>
                     <td>{row.totalRatings}</td>
                     <td>{row.userShelvesandReveiews.map(item =>{
-                        if(item.userId === currentUserID){
+                        if(item.userId === id){
                             console.log(item.shelve);
                             return item.shelve;
                         }
@@ -39,7 +39,7 @@ export default class ReadingTable extends Component {
             )
         })
         return (
-            <table class="table table-striped table-dark">
+            <table className="table table-striped table-dark">
                 <thead>
                     <tr>
                         <th scope="col">Cover</th>

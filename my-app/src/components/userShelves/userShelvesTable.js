@@ -21,7 +21,7 @@ export default class UserTable extends Component {
         })
     }
     render() {
-        const currentUserID=this.currentUser.id
+        const {id}=this.state.currentUser
         const { tableRows } = this.state
         const rowsList = tableRows.map(row => {
             return (
@@ -31,7 +31,7 @@ export default class UserTable extends Component {
                     <td>{row.avgRating}</td>
                     <td>{row.totalRatings}</td>
                     <td>{row.userShelvesandReveiews.map(item =>{
-                        if(item.userId === currentUserID){
+                        if(item.userId === id){
                             console.log(item.shelve);
                             return item.shelve;
                         }

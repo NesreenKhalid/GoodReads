@@ -12,7 +12,7 @@ import BoardAdmin from "./components/AdminBoard/adminBoard";
 import About from './components/about/about'
 import Catigories from './components/catigories/catigoris'
 import Book from './components/book/Book'
-import BookDetails from './components/bookDetails/BookDetails'
+import BookDetails from './components/bookDetails/bookDetails'
 import CategoryBooks from './components/categoryBooks/categoryBooks'
 
 class App extends Component {
@@ -144,7 +144,7 @@ class App extends Component {
               <Route path="/books" component={Book} />
                
               <Route path="/admin" component={BoardAdmin} />
-              <Route exact path="/bookDetails" component={BookDetails} />
+              <Route exact path="/bookDetails/:id" component={BookDetails} />
             </Switch>
           </div>
         </div>

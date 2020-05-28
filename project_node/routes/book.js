@@ -57,9 +57,14 @@ router.get('/:userId/:shelve', async (req, resp) => {
 });
 
 
+
 router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
+    global.total_rating = 0;
+    global.average_rating = 0;
+    global.result = 0;
+    global.finalAverageRating=0;
     try {
-        const result = await bookModel.update({
+        result = await bookModel.updateOne({
             '_id': req.params.bookId,
             'userShelvesandReveiews.userId': req.params.userId
         }, {
@@ -69,13 +74,54 @@ router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
                 'userShelvesandReveiews.$.rating': req.body.rating,
                 'userShelvesandReveiews.$.shelve': req.body.shelve
             }
-        }, { 'upsert': true })
-        console.log(result)
-        return res.json(result.n);
+        }, { upsert: true, new: true })
+        console.log(result.n)
+        res.json(result.n);
     } catch (err) {
         res.json(err);
     }
+    if (!result.n) {
+        try {
+            const updateResult = await bookModel.findByIdAndUpdate(req.params.bookId, {
+                '$addToSet': {
+                    userShelvesandReveiews: {
+                        userId: req.params.userId,
+                        review: req.body.review,
+                        rating: req.body.rating,
+                        shelve: req.body.shelve,
+                    },
+                },
+            },
+                { new: true });
+            console.log(updateResult);
+        } catch (err) {
+            console.log(err);
+        }
+    }
+    let GetByIdResult = await bookModel.findById(req.params.bookId);
+    GetByIdResult.userShelvesandReveiews.map((el, err) => {
+        if (el.rating) {
+            average_rating = average_rating + el.rating;
+            total_rating = total_rating + 1;
+        } else {
+            average_rating = 0;
+            total_rating = 0;
+        }
+        return el;
+    });
+    if(average_rating === 0){
+        finalAverageRating=0;
+    }else{
+        finalAverageRating = (average_rating / total_rating);
+    }
+    const updatedResult = await bookModel.findByIdAndUpdate(req.params.bookId, {
+        totalRatings: total_rating,
+        avgRating:finalAverageRating
+    }, { new: true })
+    console.log(updatedResult);
 })
+
+
 
 router.post('/', upload.single('image'), async (req, resp) => {
     console.log(req.body);
@@ -94,7 +140,7 @@ router.post('/', upload.single('image'), async (req, resp) => {
     }
 });
 
-router.patch('/UserShelvesandReviews/:bookId', async (req, resp) => {
+/*router.patch('/UserShelvesandReviews/:bookId/:userId/f', async (req, resp) => {
     global.total_rating = 0;
     global.average_rating = 0;
     let GetByIdResult = await bookModel.findById(req.params.bookId);
@@ -114,7 +160,7 @@ router.patch('/UserShelvesandReviews/:bookId', async (req, resp) => {
         const updateResult = await bookModel.findByIdAndUpdate(req.params.bookId, {
             '$addToSet': {
                 userShelvesandReveiews: {
-                    userId: req.body.userId,
+                    userId: req.params.userId,
                     review: req.body.review,
                     rating: req.body.rating,
                     shelve: req.body.shelve,
@@ -123,12 +169,12 @@ router.patch('/UserShelvesandReviews/:bookId', async (req, resp) => {
             totalRatings: total_rating,
             avgRating: (average_rating / total_rating)
         },
-            { new: true });
+            {new: true });
         return resp.json(updateResult);
     } catch (err) {
         resp.json(err);
     }
-})
+})*/
 
 
 

@@ -2,19 +2,23 @@ import React, { useEffect, useState } from 'react';
 import { DropdownButton, Dropdown } from 'react-bootstrap'
 import axios from 'axios'
 import Rating from 'material-ui-rating'
+import AuthService from '../../services/auth.service'
 
 
 
 const BookDetails = (params) => {
-    console.log(params);
+    const bookId = params.location.pathname.split('/')[2];
+    const userId = AuthService.getCurrentUser();
+    const finalUserId = userId.id;
     const [book, setbook] = useState({});
     const [reviews, setReviews] = useState([]);
-    const [userShelvesandReviews , setUserShelvesandReviews] = useState({});
+    const [totaluserShelvesandReviews, setUserShelvesandReviews] = useState({});
     const [userRating, setUserRating] = useState(0);
     const [userShelve, setUserShelve] = useState('');
     const [userReview, setUserReview] = useState('');
+    const [submitted, setSubmitted] = useState(false)
     useEffect(() => {
-        axios.get('http://localhost:8000/book/5ecdd5c6a34dc4121d74dba1')
+        axios.get(`http://localhost:8000/book/${bookId}`)
             .then((response) => {
                 setbook(response.data);
                 setReviews(response.data.userShelvesandReveiews);
@@ -22,10 +26,29 @@ const BookDetails = (params) => {
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
+    },[]);
 
-    const Reviews = reviews.map((item) => {
-        if(item.userId === '5eb47f225c7f51c08325e425'){ setUserShelvesandReviews(item)}
+    function sendRelevantData() {
+        if (userReview === '') { setUserReview(totaluserShelvesandReviews.review) };
+        if (userRating === 0) { setUserRating(totaluserShelvesandReviews.rating) };
+        if (userShelve === '') { setUserShelve(totaluserShelvesandReviews.shelve) }
+    }
+    useEffect(() => {
+        sendRelevantData();
+        axios.patch(`http://localhost:8000/book/userShelvesandReviews/${bookId}/${userId.id}`,
+            { "review": userReview, "rating": userRating, "shelve": userShelve })
+            .then((success) => {
+                console.log(success);
+            })
+            .catch((failure) => {
+                console.log(failure);
+            })
+    }, [userRating, userShelve, submitted])
+
+
+
+    const totalReviews = reviews.map((item) => {
+        if (item.userId == finalUserId) { setUserShelvesandReviews(item) }
         return (
             <div className="card-body" key={item._id}>
                 <h5 className="card-title">{item.userId}</h5>
@@ -33,6 +56,9 @@ const BookDetails = (params) => {
             </div>
         )
     })
+
+
+    
     return (
         <div className="container">
             <div className="row">
@@ -65,7 +91,7 @@ const BookDetails = (params) => {
                     <div className="card-header">
                         Reviews
                     </div>
-                    {Reviews}
+                    {totalReviews}
                 </div>
                 <form>
                     <input type="text" onChange={(value) => { setUserReview(value); console.log(userReview) }}></input>

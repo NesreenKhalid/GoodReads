@@ -2,28 +2,27 @@ import React, { Component } from "react";
 import axios from 'axios'
 import { Link } from "react-router-dom";
 import AuthService from "../../services/auth.service";
-export default class UserTable extends Component {
+export default class wantTOReadTable extends Component {
     state = {
-        tableRows: [],
+        wantTOReadRows: [],
         currentUser: AuthService.getCurrentUser()
-         
     }
 
     componentDidMount() {
         const currentUser= AuthService.getCurrentUser()
          
         const currentUserID=currentUser.id
-        axios.get(`http://localhost:8000/book/${currentUserID}/all`).then(res => {
+        axios.get(`http://localhost:8000/book/${currentUserID}/WantsToRead`).then(res => {
             console.log(res);
             this.setState({
-                tableRows: res.data
+                wantTOReadRows: res.data
             })
         })
     }
     render() {
         const {id}=this.state.currentUser
-        const { tableRows } = this.state
-        const rowsList = tableRows.map(row => {
+        const { wantTOReadRows } = this.state
+        const rowsList = wantTOReadRows.map(row => {
             return (
                 <tr key={row._id}>
                     <td><img src={row.image}></img></td>
@@ -36,7 +35,6 @@ export default class UserTable extends Component {
                             return item.shelve;
                         }
                     })}</td>
-
                 </tr>
             )
         })

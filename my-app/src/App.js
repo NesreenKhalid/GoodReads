@@ -14,6 +14,7 @@ import Catigories from './components/catigories/catigoris'
 import Book from './components/book/Book'
 import BookDetails from './components/bookDetails/bookDetails'
 import CategoryBooks from './components/categoryBooks/categoryBooks'
+import Footer from './components/footer/footer'
 
 class App extends Component {
   constructor(props) {
@@ -33,7 +34,7 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: AuthService.getCurrentUser(),
-        // showModeratorBoard: user.roles.includes("ROLE_MODERATOR"),
+         
         showAdminBoard: user.roles.includes("ROLE_ADMIN")
       });
     }
@@ -147,6 +148,7 @@ class App extends Component {
               <Route exact path="/bookDetails/:id" component={BookDetails} />
             </Switch>
           </div>
+          <Footer/>
         </div>
       </Router>
     );

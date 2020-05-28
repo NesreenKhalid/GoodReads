@@ -12,7 +12,7 @@ import BoardAdmin from "./components/AdminBoard/adminBoard";
 import About from './components/about/about'
 import Catigories from './components/catigories/catigoris'
 import Book from './components/book/Book'
-import BookDetails from './components/bookDetails/bookDetails'
+import BookDetails from './components/bookDetails/BookDetails'
 import CategoryBooks from './components/categoryBooks/categoryBooks'
 import Footer from './components/footer/footer'
 

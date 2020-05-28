@@ -88,7 +88,21 @@ router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
     global.total_rating = 0;
     global.average_rating = 0;
     global.result = 0;
-    global.finalAverageRating=0;
+    global.finalAverageRating = 0;
+    let userRevew = "";
+    let userRate = 0;
+    let userShelve = "";
+    let GetuserResult = await bookModel.findById(req.params.bookId);
+    const list = GetuserResult.userShelvesandReveiews.filter((el, err) => {
+        console.log(el)
+        if (el.userId == req.params.userId) {
+            return true;
+        } else { return false }
+    })
+    //console.log(list[0])
+    if (!req.body.review) { userRevew = list[0].review };
+    if (!req.body.rating) { userRate = list[0].rating };
+    if (!req.body.shelve) { userShelve = list[0].shelve };
     try {
         result = await bookModel.updateOne({
             '_id': req.params.bookId,
@@ -96,9 +110,9 @@ router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
         }, {
             '$set': {
                 'userShelvesandReveiews.$.userId': req.params.userId,
-                'userShelvesandReveiews.$.review': req.body.review,
-                'userShelvesandReveiews.$.rating': req.body.rating,
-                'userShelvesandReveiews.$.shelve': req.body.shelve
+                'userShelvesandReveiews.$.review': userRevew,
+                'userShelvesandReveiews.$.rating': userRate,
+                'userShelvesandReveiews.$.shelve': userShelve
             }
         }, { upsert: true, new: true })
         console.log(result.n)
@@ -129,20 +143,20 @@ router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
         if (el.rating) {
             average_rating = average_rating + el.rating;
             total_rating = total_rating + 1;
-        } else {
+        } /*else {
             average_rating = 0;
             total_rating = 0;
-        }
+        }*/
         return el;
     });
-    if(average_rating === 0){
-        finalAverageRating=0;
-    }else{
+    if (average_rating === 0) {
+        finalAverageRating = 0;
+    } else {
         finalAverageRating = (average_rating / total_rating);
     }
     const updatedResult = await bookModel.findByIdAndUpdate(req.params.bookId, {
         totalRatings: total_rating,
-        avgRating:finalAverageRating
+        avgRating: finalAverageRating
     }, { new: true })
     console.log(updatedResult);
 })

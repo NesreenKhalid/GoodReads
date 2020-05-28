@@ -1,14 +1,19 @@
 import React, { Component } from "react";
 import axios from 'axios'
 import { Link } from "react-router-dom";
-
+import AuthService from "../../services/auth.service";
 export default class UserTable extends Component {
     state = {
-        tableRows: []
+        tableRows: [],
+        currentUser: AuthService.getCurrentUser()
+         
     }
 
     componentDidMount() {
-        axios.get('http://localhost:8000/book/5ecec50e9df0ef3c8f6e1524/all').then(res => {
+        const currentUser= AuthService.getCurrentUser()
+         
+        const currentUserID=currentUser.id
+        axios.get(`http://localhost:8000/book/${currentUserID}/all`).then(res => {
             console.log(res);
             this.setState({
                 tableRows: res.data
@@ -16,6 +21,7 @@ export default class UserTable extends Component {
         })
     }
     render() {
+        const {id}=this.state.currentUser
         const { tableRows } = this.state
         const rowsList = tableRows.map(row => {
             return (
@@ -25,7 +31,7 @@ export default class UserTable extends Component {
                     <td>{row.avgRating}</td>
                     <td>{row.totalRatings}</td>
                     <td>{row.userShelvesandReveiews.map(item =>{
-                        if(item.userId === "5ecec50e9df0ef3c8f6e1524"){
+                        if(item.userId === id){
                             console.log(item.shelve);
                             return item.shelve;
                         }

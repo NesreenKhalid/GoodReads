@@ -15,6 +15,7 @@ import Book from './components/book/Book'
 import BookDetails from './components/bookDetails/bookDetails'
 import CategoryBooks from './components/categoryBooks/categoryBooks'
 import Footer from './components/footer/footer'
+import Author from './components/author/Auther'
 
 import { search } from './utils'
 
@@ -95,7 +96,13 @@ class App extends Component {
               </li>
               <li className="nav-item">
                 <Link to={"/catigories"} className="nav-link">
-                  Catigories
+                  Categories
+                </Link>
+              </li>
+              
+              <li className="nav-item">
+                <Link to={"/authors"} className="nav-link">
+                Authors
                 </Link>
               </li>
               <li className="nav-item">
@@ -170,7 +177,7 @@ class App extends Component {
               <Route exact path="/catigories/:id" component={CategoryBooks} />
               <Route path="/catigories" component={Catigories} />
               <Route path="/books" component={Book} />
-               
+              <Route path="/authors" component={Author}/>
               <Route path="/admin" component={BoardAdmin} />
               <Route exact path="/bookDetails/:id" component={BookDetails} />
             </Switch>

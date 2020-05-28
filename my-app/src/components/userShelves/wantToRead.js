@@ -18,7 +18,7 @@ export default class wantTOReadTable extends Component {
         const { wantTOReadRows } = this.state
         const rowsList = wantTOReadRows.map(row => {
             return (
-                <tr key={row_id}>
+                <tr key={row._id}>
                     <td><img src={row.image}></img></td>
                     <td>{row.name}</td>
                     <td>{row.avgRating}</td>

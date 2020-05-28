@@ -5,7 +5,7 @@ import UserTable from '../userShelves/userShelvesTable'
 import ReadTable from '../userShelves/readShilve'
 import ReadingTable from '../userShelves/readingShilve'
 import wantTOReadTable from '../userShelves/wantToRead'
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 export default class BoardUser extends Component {
 
     render() {

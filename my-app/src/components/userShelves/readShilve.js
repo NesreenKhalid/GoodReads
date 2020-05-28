@@ -18,7 +18,7 @@ export default class ReadTable extends Component {
         const { readTableRows } = this.state
         const rowsList = readTableRows.map(row => {
             return (
-                <tr key={row_id}>
+                <tr key={row._id}>
                     <td><img src={row.image}></img></td>
                     <td>{row.name}</td>
                     <td>{row.avgRating}</td>

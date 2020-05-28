@@ -1,59 +1,49 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import UserService from "../../services/user.service";
-
+import Author from "../author/Auther";
+import Catigories from "../catigories/catigoris";
+import Book from "../book/Book";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 export default class Home extends Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            content: ""
-        };
-    }
-
-    componentDidMount() {
-        UserService.getPublicContent().then(
-            response => {
-                this.setState({
-                    content: response.data
-                });
-            },
-            error => {
-                this.setState({
-                    content:
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString()
-                });
-            }
-        );
-    }
 
     render() {
         return (
-            //   <div className="container">
-            //     <header className="jumbotron">
-            //       <h3>{this.state.content}</h3>
-            //     </header>
-            //   </div>
-
+            
             <div className="container">
-
                 <div className="row">
                     <div className="col-lg-3">
                         <h1 className="my-4">GoodReads</h1>
                         <div className="list-group">
-                            <Link to="#" className="list-group-item">All</Link>
-                            <Link to="#" className="list-group-item">Read</Link>
-                            <Link to="#" className="list-group-item">Currently Reading</Link>
-                            <Link to="#" className="list-group-item">Want To Read</Link>
+                            <Link to="/books" className="list-group-item">Books</Link>
+                            <Link to="/authors" className="list-group-item">Authors</Link>
+                            <Link to="/catigories" className="list-group-item">Categories</Link>
+
                         </div>
                     </div>
 
                     <div className="col-lg-9">
-                        <header className="jumbotron">
-                            <h3>{this.state.content}</h3>
-                        </header>
+                        <div className="container">
+                            <div className="row">
+                                <header className="jumbotron">
+                                    <div>
+                                        <Book />
+
+                                    </div>
+                                </header>
+                                <header className="jumbotron">
+                                    <div>
+                                        <Author />
+                                    </div>
+                                </header>
+                                <header className="jumbotron">
+                                    <div>
+
+                                        <Catigories />
+                                    </div>
+                                </header>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>

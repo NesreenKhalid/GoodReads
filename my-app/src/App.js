@@ -15,6 +15,8 @@ import Book from './components/book/Book'
 import BookDetails from './components/bookDetails/BookDetails'
 import CategoryBooks from './components/categoryBooks/categoryBooks'
 
+import { search } from './utils'
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -23,7 +25,10 @@ class App extends Component {
     this.state = {
 
       showAdminBoard: false,
-      currentUser: undefined
+      currentUser: undefined,
+      books: null,
+      loading: false,
+      value: ''
     };
   }
 
@@ -43,6 +48,28 @@ class App extends Component {
     AuthService.logout();
   }
 
+  search = async val => {
+    this.setState({ loading: true });
+    // const res = await axios(
+    const res = await search(`http://localhost:8000/book?search=${val}`);
+    const books = res;
+
+    this.setState({ books, loading: false });
+  };
+ 
+  onChangeHandler = async e => {
+    this.search(e.target.value);
+    this.setState({ value: e.target.value });
+  };
+
+  get renderBooks() {
+    let books = <h1>There's no books</h1>;
+    if (this.state.books) {
+      //books = <Movies list={this.state.movies} />;
+    }
+    return books;
+  }
+  
   render() {
     const { currentUser, showAdminBoard } = this.state;
 

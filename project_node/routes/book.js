@@ -57,21 +57,21 @@ router.get('/:userId/:shelve', async (req, resp) => {
 });
 
 
-router.get('/userShelvesandReviews/getList/:userId', async (req, res) => {
+router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
     try {
-        const list = await bookModel.find({
-            'userShelvesandReveiews.userId': req.params.userId,
-        });
-        list.map((item)=>{
-            if (item.userId == req.params.userId){
-                bookModel.update(item._id,{'$set': {
-                    'item.$.review': req.body.review,
-                    'item.$.rating': req.body.rating,
-                    'item.$.shelve': req.body.shelve
-                }},(result)=>{return res.json(result)})
+        const result = await bookModel.update({
+            '_id': req.params.bookId,
+            'userShelvesandReveiews.userId': req.params.userId
+        }, {
+            '$set': {
+                'userShelvesandReveiews.$.userId': req.params.userId,
+                'userShelvesandReveiews.$.review': req.body.review,
+                'userShelvesandReveiews.$.rating': req.body.rating,
+                'userShelvesandReveiews.$.shelve': req.body.shelve
             }
-        })
-        return res.json(list);
+        }, { 'upsert': true })
+        console.log(result)
+        return res.json(result.n);
     } catch (err) {
         res.json(err);
     }

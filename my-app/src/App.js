@@ -139,12 +139,13 @@ class App extends Component {
               <Route exact path="/profile" component={Profile} />
               <Route path="/user" component={BoardUser} />
               <Route path="/about" component={About} />
+              <Route exact path="/catigories/:id" component={CategoryBooks} />
               <Route path="/catigories" component={Catigories} />
-              <Route path="/catigories/:id" component={CategoryBooks} />
               <Route path="/books" component={Book} />
                
               <Route path="/admin" component={BoardAdmin} />
               <Route path="/bookDetails" component={BookDetails} />
+              <Route exact path="/bookDetails" component={BookDetails} />
             </Switch>
           </div>
         </div>

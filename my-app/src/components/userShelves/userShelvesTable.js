@@ -8,7 +8,8 @@ export default class UserTable extends Component {
     }
 
     componentDidMount() {
-        axios.get('Localhost:8000/book/:userid/').then(res => {
+        axios.get('http://localhost:8000/book/5ecec50e9df0ef3c8f6e1524/all').then(res => {
+            console.log(res);
             this.setState({
                 tableRows: res.data
             })
@@ -23,13 +24,18 @@ export default class UserTable extends Component {
                     <td>{row.name}</td>
                     <td>{row.avgRating}</td>
                     <td>{row.totalRatings}</td>
-                    <td>{row.userShelvesandReveiews.shelve}</td>
+                    <td>{row.userShelvesandReveiews.map(item =>{
+                        if(item.userId === "5ecec50e9df0ef3c8f6e1524"){
+                            console.log(item.shelve);
+                            return item.shelve;
+                        }
+                    })}</td>
 
                 </tr>
             )
         })
         return (
-            <table class="table table-striped table-dark">
+            <table className="table table-striped table-dark">
                 <thead>
                     <tr>
                         <th scope="col">Cover</th>

@@ -20,11 +20,11 @@ export default class Book extends Component {
         const booksList = books.map(book => {
             return (
                 <div key={book._id}>
-                    <div className="card">
-                        <img className="cat1 card-img-top" src={book.image} alt="econimics" />
-                        {/*<h5 className="card-title">{book.name}</h5>*/}
-                        <Link to="/bookDetails/:id" className="card-link">{book.name}</Link>
-                    </div>
+                        <div className="card">
+                            <img className="cat1 card-img-top" src={book.image} alt="econimics"/>
+                            {/*<h5 className="card-title">{book.name}</h5>*/}
+                            <Link to={`/bookDetails/${book._id}`} className="card-link">{book.name}</Link>
+                        </div>
                 </div>
             )
         })

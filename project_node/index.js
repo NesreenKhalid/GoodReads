@@ -35,7 +35,8 @@ const Role = db.role;
 
 mongoose.connect(mngoosePort,  {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
+  useFindAndModify:false
 }, (err) => {
   if (!err) return console.log("successfully connect db")
   console.log(err)

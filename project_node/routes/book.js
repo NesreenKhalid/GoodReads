@@ -93,8 +93,9 @@ router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
     let userRate = 0;
     let userShelve = "";
     let GetuserResult = await bookModel.findById(req.params.bookId);
+    console.log("ygyytytvytvyvt",GetuserResult)
     const list = GetuserResult.userShelvesandReveiews.filter((el, err) => {
-        console.log(el)
+        
         if (el.userId == req.params.userId) {
             return true;
         } else { return false }

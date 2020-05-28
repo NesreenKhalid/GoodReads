@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import UserService from "../../services/user.service";
+import UserTable from '../userShelves/userShelvesTable'
 
 export default class BoardUser extends Component {
     constructor(props) {
@@ -33,67 +34,24 @@ export default class BoardUser extends Component {
 
     render() {
         return (
+            <div className="container">
 
-
-            <div class="container">
-
-                <div class="row">
-                    <div class="col-lg-3">
-                        <h1 class="my-4">GoodReads</h1>
-                        <div class="list-group">
-                            <Link to="#" class="list-group-item">All</Link>
-                            <Link to="#" class="list-group-item">Read</Link>
-                            <Link to="#" class="list-group-item">Currently Reading</Link>
-                            <Link to="#" class="list-group-item">Want To Read</Link>
+                <div className="row">
+                    <div className="col-lg-3">
+                        <h1 className="my-4">GoodReads</h1>
+                        <div className="list-group">
+                            <Link to="#" className="list-group-item">All</Link>
+                            <Link to="#" className="list-group-item">Read</Link>
+                            <Link to="#" className="list-group-item">Currently Reading</Link>
+                            <Link to="#" className="list-group-item">Want To Read</Link>
                         </div>
                     </div>
 
-                    <div class="col-lg-9">
+                    <div className="col-lg-9">
                         <header className="jumbotron">
                             <h3>{this.state.content}</h3>
                         </header>
-                        <table class="table table-striped table-dark">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Cover</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Author</th>
-                                    <th scope="col">AVG Rate</th>
-                                    <th scope="col">Rating</th>
-                                    <th scope="col">Shelves</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                     
-                                    <td>Image</td>
-                                    <td>Mark</td>
-                                    <td>Oliver twist</td>
-                                    <td>***</td>
-                                    <td>****</td>
-                                    <td>reading</td>
-                                    
-                                </tr>
-                                <tr>
-                                    
-                                    <td>Image</td>
-                                    <td>Mark</td>
-                                    <td>Oliver twist</td>
-                                    <td>***</td>
-                                    <td>****</td>
-                                    <td>reading</td>
-                                </tr>
-                                <tr>
-                                     
-                                    <td>Image</td>
-                                    <td>Mark</td>
-                                    <td>Oliver twist</td>
-                                    <td>***</td>
-                                    <td>****</td>
-                                    <td>reading</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                         <UserTable/>
                     </div>
                 </div>
             </div>

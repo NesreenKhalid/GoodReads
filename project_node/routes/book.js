@@ -36,7 +36,7 @@ router.get('/:bookId', async (req, resp) => {
 
 router.get('/:userId/all', async (req, resp) => {
     try {
-        const GetByIdResult = await bookModel.find({'userShelvesandReveiews.userId': req.params.userId});
+        const GetByIdResult = await bookModel.find({ 'userShelvesandReveiews.userId': req.params.userId });
         return resp.json(GetByIdResult);
     } catch (err) {
         resp.json("something went wrong");
@@ -46,13 +46,36 @@ router.get('/:userId/all', async (req, resp) => {
 router.get('/:userId/:shelve', async (req, resp) => {
     try {
         const GetByIdResult = await bookModel.find(
-            {'userShelvesandReveiews.userId': req.params.userId,
-             'userShelvesandReveiews.shelve': req.params.shelve});
+            {
+                'userShelvesandReveiews.userId': req.params.userId,
+                'userShelvesandReveiews.shelve': req.params.shelve
+            });
         return resp.json(GetByIdResult);
     } catch (err) {
         resp.json("something went wrong");
     }
 });
+
+
+router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
+    try {
+        const result = await bookModel.update({
+            '_id': req.params.bookId,
+            'userShelvesandReveiews.userId': req.params.userId
+        }, {
+            '$set': {
+                'userShelvesandReveiews.$.userId': req.params.userId,
+                'userShelvesandReveiews.$.review': req.body.review,
+                'userShelvesandReveiews.$.rating': req.body.rating,
+                'userShelvesandReveiews.$.shelve': req.body.shelve
+            }
+        }, { 'upsert': true })
+        console.log(result)
+        return res.json(result.n);
+    } catch (err) {
+        res.json(err);
+    }
+})
 
 router.post('/', upload.single('image'), async (req, resp) => {
     console.log(req.body);

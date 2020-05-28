@@ -14,6 +14,7 @@ import Catigories from './components/catigories/catigoris'
 import Book from './components/book/Book'
 import BookDetails from './components/bookDetails/BookDetails'
 import CategoryBooks from './components/categoryBooks/categoryBooks'
+import Footer from './components/footer/footer'
 
 class App extends Component {
   constructor(props) {
@@ -148,6 +149,7 @@ class App extends Component {
               <Route exact path="/bookDetails" component={BookDetails} />
             </Switch>
           </div>
+          <Footer/>
         </div>
       </Router>
     );

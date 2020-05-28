@@ -18,21 +18,21 @@ export default class BoardUser extends Component {
                         <div className="col-lg-3">
                             <h1 className="my-4">GoodReads</h1>
                             <div className="list-group">
-                                <Link to="all" className="list-group-item">All</Link>
-                                <Link to="#" className="list-group-item">Read</Link>
-                                <Link to="#" className="list-group-item">Currently Reading</Link>
-                                <Link to="#" className="list-group-item">Want To Read</Link>
+                                <Link to="/all" className="list-group-item">All</Link>
+                                <Link to="/read" className="list-group-item">Read</Link>
+                                <Link to="/reading " className="list-group-item">Currently Reading</Link>
+                                <Link to="/wantToRead" className="list-group-item">Want To Read</Link>
                             </div>
+                        </div>
+                        <div class="col-lg-9 table">
 
-                            <div class="col-lg-9">
-                                <div className="container mt-3">
-                                    <Switch>
-                                        <Route path="/all" component={UserTable} />
-                                        <Route path="/read" component={ReadTable} />
-                                        <Route path="/reading" component={ReadingTable} />
-                                        <Route path="/wantToRead" component={wantTOReadTable} />
-                                    </Switch>
-                                </div>
+                            <div className="container mt-3">
+                                <Switch>
+                                    <Route path="/all" component={UserTable} />
+                                    <Route path="/read" component={ReadTable} />
+                                    <Route path="/reading" component={ReadingTable} />
+                                    <Route path="/wantToRead" component={wantTOReadTable} />
+                                </Switch>
 
                             </div>
 

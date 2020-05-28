@@ -1,7 +1,7 @@
-import React, { useState ,Component} from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-export default class Book extends Component{
+export default class Book extends Component {
     state = {
         books: []
     }
@@ -14,7 +14,7 @@ export default class Book extends Component{
                 })
             })
     }
-     
+
     render() {
         const { books } = this.state
         const booksList = books.map(book => {
@@ -31,11 +31,14 @@ export default class Book extends Component{
 
         return (
             <div className="container">
+                <div className="row">
                     <div className="catigories">
-                    {booksList}
+                        {booksList}
                     </div>
+                </div>
+
             </div>
         );
     }
-    
+
 }

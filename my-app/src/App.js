@@ -18,6 +18,11 @@ import authorDetails from './components/AuthorDetails/authorDetails'
 import Footer from './components/footer/footer'
 import Author from './components/author/Auther'
 
+import Authors from './components/AdminBoard/AuthorsAdmin/Authors'
+import Categories from './components/AdminBoard/CategoriesAdmin/Categories'
+import Books from './components/AdminBoard/BooksAdmin/Books'
+import NavAdmin from './components/AdminBoard/NavBarAdmin/NavbarAdmin'
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -93,13 +98,14 @@ class App extends Component {
                 </li>
               )} */}
 
-              {showAdminBoard && (
+              {/* {showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
                     Admin Board
+                   < NavAdmin/>
                   </Link>
                 </li>
-              )}
+              )} */}
 
               {currentUser && (
                 <li className="nav-item">
@@ -153,9 +159,14 @@ class App extends Component {
               <Route path="/books" component={Book} />
               <Route path="/authors" component={Author}/>
               <Route path="/admin" component={BoardAdmin} />
+              <Route path="/authors" component={Author} />
               <Route exact path="/bookDetails/:id" component={BookDetails} />
               <Route exact path="/authorDetails/:id" component={authorDetails} />
             </Switch>
+            <Route path="/admin/categories" component={Categories} />
+            <Route exact path="/admin/books" component={Books} />
+            <Route exact path="/admin/authors" component={Authors} />
+            <Route  exact path="/admin" component={Books} />
           </div>
           <Footer/>
         </div>

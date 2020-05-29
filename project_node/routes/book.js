@@ -27,14 +27,8 @@ router.get('/', async (req, resp) => {
 
 router.get('/:bookId', async (req, resp) => {
     try {
-        const GetByIdResult = await bookModel.findById(req.params.bookId)
-            .populate("authId")
-            .populate("catId")
-            .exec((err, results) => {
-                if (!err) return resp.json(results)
-                return resp.json(err)
-            });
-        //return resp.json(GetByIdResult);
+        const GetByIdResult = await bookModel.findById(req.params.bookId);
+        return resp.json(GetByIdResult);
     } catch (err) {
         resp.json("something went wrong");
     }
@@ -42,46 +36,18 @@ router.get('/:bookId', async (req, resp) => {
 
 router.get('/:userId/all', async (req, resp) => {
     try {
-        const GetByIdResult = await bookModel.find({ 'userShelvesandReveiews.userId': req.params.userId });
+        const GetByIdResult = await bookModel.find({'userShelvesandReveiews.userId': req.params.userId});
         return resp.json(GetByIdResult);
     } catch (err) {
         resp.json("something went wrong");
     }
 });
 
-router.get('/:userId/Reading', async (req, resp) => {
+router.get('/:userId/:shelve', async (req, resp) => {
     try {
         const GetByIdResult = await bookModel.find(
-            {
-                'userShelvesandReveiews.userId': req.params.userId,
-                'userShelvesandReveiews.shelve': "Reading"
-            });
-        return resp.json(GetByIdResult);
-    } catch (err) {
-        resp.json("something went wrong");
-    }
-});
-
-router.get('/:userId/WantsToRead', async (req, resp) => {
-    try {
-        const GetByIdResult = await bookModel.find(
-            {
-                'userShelvesandReveiews.userId': req.params.userId,
-                'userShelvesandReveiews.shelve': "Wants to read"
-            });
-        return resp.json(GetByIdResult);
-    } catch (err) {
-        resp.json("something went wrong");
-    }
-});
-
-router.get('/:userId/Read', async (req, resp) => {
-    try {
-        const GetByIdResult = await bookModel.find(
-            {
-                'userShelvesandReveiews.userId': req.params.userId,
-                'userShelvesandReveiews.shelve': "Read"
-            });
+            {'userShelvesandReveiews.userId': req.params.userId,
+             'userShelvesandReveiews.shelve': req.params.shelve});
         return resp.json(GetByIdResult);
     } catch (err) {
         resp.json("something went wrong");
@@ -187,7 +153,9 @@ router.post('/', upload.single('image'), async (req, resp) => {
     }
 });
 
-/*router.patch('/UserShelvesandReviews/:bookId/:userId/f', async (req, resp) => {
+
+
+router.patch('/UserShelvesandReviews/:bookId', async (req, resp) => {
     global.total_rating = 0;
     global.average_rating = 0;
     let GetByIdResult = await bookModel.findById(req.params.bookId);
@@ -207,7 +175,7 @@ router.post('/', upload.single('image'), async (req, resp) => {
         const updateResult = await bookModel.findByIdAndUpdate(req.params.bookId, {
             '$addToSet': {
                 userShelvesandReveiews: {
-                    userId: req.params.userId,
+                    userId: req.body.userId,
                     review: req.body.review,
                     rating: req.body.rating,
                     shelve: req.body.shelve,
@@ -216,18 +184,29 @@ router.post('/', upload.single('image'), async (req, resp) => {
             totalRatings: total_rating,
             avgRating: (average_rating / total_rating)
         },
-            {new: true });
+            { new: true });
         return resp.json(updateResult);
     } catch (err) {
         resp.json(err);
     }
-})*/
+})
 
 
 
-router.patch('/:bookId', async (req, resp) => {
+router.patch('/:bookId', upload.single('image'),async (req, resp,next) => {
+    // console.log(req.file)
+    const bookData = {
+        image:req.file?req.file.path: (await bookModel.findById(req.params.bookId).select('image -_id')).image
+        ,name:req.body.name
+        , authId: req.body.authId,
+        catId: req.body.catId,
+        productionDate: req.body.productionDate
+    }
+    console.log(req.file)
+
+
     try {
-        const updateResult = await bookModel.findByIdAndUpdate(req.params.bookId, req.body, { new: true });
+        const updateResult = await bookModel.findByIdAndUpdate(req.params.bookId, bookData, { new: true });
         return resp.json(updateResult);
     } catch (err) {
         resp.json(err);

@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-
 import UserService from "../../services/user.service";
+import NavAdmin from './NavBarAdmin/NavbarAdmin'
+import Authors from './AuthorsAdmin/Authors'
+import Categories from './CategoriesAdmin/Categories'
+import Books from './BooksAdmin/Books'
+
 
 export default class BoardUser extends Component {
   constructor(props) {
@@ -33,10 +37,14 @@ export default class BoardUser extends Component {
 
   render() {
     return (
-      <div className="container">
-        <header className="jumbotron">
-          <h3>{this.state.content}</h3>
-        </header>
+      <div >
+        {/* <header className="jumbotron"> */}
+          {/* <h3>{this.state.content}</h3> */}
+         {/* < NavAdmin/> */}
+
+        
+           
+        {/* </header> */}
       </div>
     );
   }

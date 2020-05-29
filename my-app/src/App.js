@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
-// import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import AuthService from "./services/auth.service";
@@ -19,8 +19,8 @@ import authorDetails from './components/AuthorDetails/authorDetails'
 import Footer from './components/footer/footer'
 import Author from './components/author/Auther'
 
-// import ReactSearchBox from 'react-search-box'
-// import { search } from './Utils/search'
+import ReactSearchBox from 'react-search-box'
+import { search } from './Utils/search'
 
 class App extends Component {
   constructor(props) {
@@ -53,30 +53,30 @@ class App extends Component {
     AuthService.logout();
   }
 
-//   search = async val => {
-//     this.setState({ loading: true });
-//     // const res = await axios(
-//     const res = await search(`http://localhost:8000/book?search=${val}`);
-//     const books = res;
-//     console.log(books);
+  search = async val => {
+    this.setState({ loading: true });
+    // const res = await axios(
+    const res = await search(`http://localhost:8000/book?search=${val}`);
+    const books = res;
+    console.log(books);
     
-//     this.setState({ books, loading: false });
-//   };
+    this.setState({ books, loading: false });
+  };
 
-//   onChangeHandler = async value => {
-//     this.search(value);
-//     this.setState({ value });
-//     console.log(value);
+  onChangeHandler = async value => {
+    this.search(value);
+    this.setState({ value });
+    console.log(value);
     
 
-//   };
-//   routeChange=(target)=> {
-//     console.log(target);
+  };
+  routeChange=(target)=> {
+    console.log(target);
     
-//     // let path = `/bookDetails/${target.id}`;
-//     // let history = useHistory();
-//     // history.push(path);
-//   }
+    // let path = `/bookDetails/${target.id}`;
+    // let history = useHistory();
+    // history.push(path);
+  }
 
   render() {
     const { currentUser, showAdminBoard } = this.state;
@@ -143,17 +143,17 @@ class App extends Component {
             </div>
 
 
-//             <ReactSearchBox
-//               placeholder="Search by Book Name"
-//               value={this.state.value}
-//               data={this.data?this.data:[{"result": "no books found"}]}
-//               // callback={record => console.log(record)}
-//               onChange={value => this.onChangeHandler(value)}
-//               onSelect={target=>{
-//                 console.log(target);
-//                 // this.routeChange(target)               
-//               }} 
-//             />
+            <ReactSearchBox
+              placeholder="Search by Book Name"
+              value={this.state.value}
+              data={this.data?this.data:[{"result": "no books found"}]}
+              // callback={record => console.log(record)}
+              onChange={value => this.onChangeHandler(value)}
+              onSelect={target=>{
+                console.log(target);
+                // this.routeChange(target)               
+              }} 
+            />
 
             {currentUser ? (
               <div className="navbar-nav ml-auto">

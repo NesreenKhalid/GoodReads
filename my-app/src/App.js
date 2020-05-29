@@ -41,7 +41,7 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: AuthService.getCurrentUser(),
-
+         
         showAdminBoard: user.roles.includes("ROLE_ADMIN")
       });
     }
@@ -78,10 +78,10 @@ class App extends Component {
                   Categories
                 </Link>
               </li>
-
+              
               <li className="nav-item">
                 <Link to={"/authors"} className="nav-link">
-                  Authors
+                Authors
                 </Link>
               </li>
               <li className="nav-item">
@@ -115,7 +115,6 @@ class App extends Component {
                 </li>
               )}
             </div>
-
 
             {currentUser ? (
               <div className="navbar-nav ml-auto">
@@ -158,6 +157,8 @@ class App extends Component {
               <Route exact path="/catigories/:id" component={CategoryBooks} />
               <Route path="/catigories" component={Catigories} />
               <Route path="/books" component={Book} />
+              <Route path="/authors" component={Author}/>
+              <Route path="/admin" component={BoardAdmin} />
               <Route path="/authors" component={Author} />
               <Route exact path="/bookDetails/:id" component={BookDetails} />
               <Route exact path="/authorDetails/:id" component={authorDetails} />
@@ -167,7 +168,7 @@ class App extends Component {
             <Route exact path="/admin/authors" component={Authors} />
             <Route  exact path="/admin" component={Books} />
           </div>
-          <Footer />
+          <Footer/>
         </div>
       </Router>
     );

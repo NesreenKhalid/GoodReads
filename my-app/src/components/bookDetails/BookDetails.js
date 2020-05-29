@@ -15,8 +15,9 @@ const BookDetails = (props) => {
     const [userRating, setUserRating] = useState(0);
     const [userShelve, setUserShelve] = useState('');
     const [userReview, setUserReview] = useState('');
-    const [submitted, setSubmitted] = useState(false)
+    const [submitted, setSubmitted] = useState(false);
     const [fuserId, setUserId] = useState("");
+    const [userName, setUserName] = useState("");
     const [authorFirstName, setAuthorFirstName] = useState("");
     const [authorSecondName, setAuthorSecondName] = useState("");
     const [catName, setCatName] = useState("");
@@ -24,6 +25,7 @@ const BookDetails = (props) => {
     function getBook() {
         //setUserId(AuthService.getCurrentUser().id);
         const userId = AuthService.getCurrentUser().id;
+        console.log(userId)
         setUserId(userId)
         axios.get(`http://localhost:8000/book/${bookId}`)
             .then((response) => {
@@ -48,6 +50,8 @@ const BookDetails = (props) => {
             });
 
     }
+
+
     useEffect(() => {
         getBook();
     }, []);
@@ -64,9 +68,9 @@ const BookDetails = (props) => {
             })
     }, [userRating, userShelve, submitted])
 
-    useEffect(() => {
+    /*useEffect(() => {
         console.log(totaluserShelvesandReviews)
-    }, [totaluserShelvesandReviews])
+    }, [totaluserShelvesandReviews])*/
 
     const totalReviews = reviews.map((item) => {
         return (

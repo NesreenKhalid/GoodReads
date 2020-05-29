@@ -143,7 +143,7 @@ class App extends Component {
             </div>
 
 
-            <ReactSearchBox
+            {/* <ReactSearchBox
               placeholder="Search by Book Name"
               value={this.state.value}
               data={this.data?this.data:[{"result": "no books found"}]}
@@ -153,7 +153,7 @@ class App extends Component {
                 console.log(target);
                 // this.routeChange(target)               
               }} 
-            />
+            /> */}
 
             {currentUser ? (
               <div className="navbar-nav ml-auto">

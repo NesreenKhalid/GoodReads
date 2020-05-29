@@ -16,8 +16,23 @@ const router = express.Router();
 
 router.get('/', async (req, resp) => {
     try {
-        const getResult = await bookModel.find({});
+        let searchVal = req.query.search
+        
+        if (searchVal) {
+           const getResult = await bookModel.aggregate([{
+                $match: {
+                    name: {
+                        '$regex': searchVal,
+                        '$options': i
+                    }
+                }
+            }])
+
+        } else {
+            const getResult = await bookModel.find({});
+        }
         return resp.json(getResult);
+
     } catch (err) {
         resp.json(err);
     }

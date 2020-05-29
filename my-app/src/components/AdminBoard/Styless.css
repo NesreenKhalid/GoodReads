@@ -1,0 +1,46 @@
+#title {
+    text-align: center;
+    font-family: arial, sans-serif;
+  }
+  
+  #data {
+    text-align: center;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    border: 3px solid #ddd;
+    /* width: 100%; */
+    flex-basis: auto;
+    flex-grow: 4;
+    flex-direction: row;
+  }
+  
+.rowBtn{
+    display: flex;;
+  }
+  .edit {
+    align-content: flex-start;
+}
+.delete {
+    align-content: flex-end;
+}
+  #data td, #authors th {
+    border: 1px solid #ddd;
+    padding: 8px;
+  }
+  
+  #data tr:nth-child(even){background-color: #f2f2f2;}
+  
+  #data tr:hover {background-color: rgb(207, 33, 27);}
+  
+  #data th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: center;
+    background-color:blue;
+    color: black;
+  }
+  .row{
+      flex-direction: row ;
+      justify-content: flex-end;
+      flex-basis: auto;
+  }

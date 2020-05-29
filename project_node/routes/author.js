@@ -3,9 +3,7 @@ const express = require('express');
 const router = express.Router();
 const AuthorModel = require('../models/author');
 const bookModel = require('../models/books');
-
 const multer = require('multer');
-
 const storage = multer.diskStorage({
     destination: function (request, file, cb) {
         cb(null, './uploads/');
@@ -15,7 +13,7 @@ const storage = multer.diskStorage({
     }
 });
 const fileFilter = (request, file, cb) => {
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
+    if (file.mimetype === 'image/jpg'|| file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
         cb(null, true)
     }
     else {
@@ -34,63 +32,96 @@ const upload = multer({
 
 
 router.get('/', (request, response) => {
+    const authorID = request.params.authorID
     AuthorModel.find({}).exec((err, allAuthors) => {
         response.json(allAuthors)
     })
 })
-
 router.get('/:authorID', (request, response) => {
-    AuthorModel.findById(request.params.authorID).exec((err, author) => {
-          response.json(author)
-    })
-})
-
-router.get('/books/:authorID', (request, response) => {
     const authorID = request.params.authorID
-    bookModel.find({'authId': authorID}).exec((err, author) => {
+    bookModel.find({ 'authId': authorID }).exec((err, author) => {
+        response.json(author)
+    })
+  
+})
+router.get('/book/:authorID', (request, response) => {
+    const authorID = request.params.authorID
+    AuthorModel.findById(authorID).exec((err, author) => {
         response.json(author)
     })
 })
 router.get('/:authorID/details/:userId', (request, response) => {
-    try{
-        const authorID = request.params.authorID 
+    try {
+        const authorID = request.params.authorID
         let details = {}
         AuthorModel.findById(authorID).exec((err, author) => {
             details['auth'] = author
         })
-        bookModel.find({'authId': authorID, 'userShelvesandReveiews.userId': userId}).exec((err, books) => {
+        bookModel.find({ 'authId': authorID, 'userShelvesandReveiews.userId': userId }).exec((err, books) => {
             details['books'] = books
         })
-    
+
         return response.json(details)
-    }catch{
+    } catch{
         resp.json("something went wrong");
     }
+
+})
+
+
+
+router.post('/', upload.single('authorImage'), (req, res, next) => {
+    console.log(req.file);
+    console.log(req.body);
+    const author = new AuthorModel({
+        _id: new mongoose.Types.ObjectId(),
+        authorImage: req.file.path,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        dateOfBirth: req.body.dateOfBirth
+    });
+    author.save().then(result => {
+        res.status(201).json({
+            message: "Author registered successfully!",
+            authorCreated: {
+                _id: result._id,
+                authorImage: result.authorImage,
+                firstName: result.firstName,
+                lastName: result.lastName,
+                dateOfBirh: result.dateOfBirh
+            }
+        })
+    }).catch(err => {
+        console.log(err),
+            res.status(500).json({
+                error: err
+            });
+    })
+})
+
+
+router.patch('/:authorID',async (request, response) => {
+
+    const authorData ={
+        firstName:request.body.firstName,
+        lastName:request.body.lastName,
+        dateOfBirh:request.body.dateOfBirh,
+        authorImage:request.file?request.file.path: (await AuthorModel.findById(request.params.authorID).select('image -_id')).authorImage
+                    
+    }
+    try {
+        const updateResult = await AuthorModel.findByIdAndUpdate(request.params.authorID, authorData, { new: true });
+       console.log(updateResult)
+        return response.json(updateResult);
+    } catch (err) {
+        response.json(err);
+    }
     
+    console.log(authorData)
+
 })
-router.post('/', upload.single('authorImage'), (request, response) => {
-    const idInsideObject = { _id: new mongoose.Types.ObjectId(),authorImage:request.file.path }
-    const authorData = Object.assign(request.body, idInsideObject)
-
-    const author = new AuthorModel(authorData)
-    author.save((err, author) => {
-        if (!err) {
-            return response.json(author)
-        }
-        console.log(err)
-        // response.send("cannot connect to database")
-        response.send(err)
 
 
-    })
-});
-router.patch('/:authorID', (request, response) => {
-    const authorID = request.params.authorID;
-    const author = AuthorModel.findByIdAndUpdate(authorID, request.body, { new: true }, (err, author) => {
-        if (err) return response.status(500).send(err)
-        return response.send(author);
-    })
-})
 router.delete('/:authorID', (request, response) => {
     const authorID = request.params.authorID;
     AuthorModel.findByIdAndDelete(authorID, (err, author) => {

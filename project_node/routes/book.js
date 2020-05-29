@@ -42,8 +42,14 @@ router.get('/', async (req, resp) => {
 
 router.get('/:bookId', async (req, resp) => {
     try {
-        const GetByIdResult = await bookModel.findById(req.params.bookId);
-        return resp.json(GetByIdResult);
+        const GetByIdResult = await bookModel.findById(req.params.bookId)
+            .populate("authId")
+            .populate("catId")
+            .exec((err, results) => {
+                if (!err) return resp.json(results)
+                return resp.json(err)
+            });
+        //return resp.json(GetByIdResult);
     } catch (err) {
         resp.json("something went wrong");
     }
@@ -100,25 +106,25 @@ router.get('/:userId/Read', async (req, resp) => {
 
 
 router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
+    console.log(req.body.rating)
     global.total_rating = 0;
     global.average_rating = 0;
     global.result = 0;
     global.finalAverageRating = 0;
-    let userRevew = "";
-    let userRate = 0;
-    let userShelve = "";
+    let userRevew = req.body.review;
+    let userRate = req.body.rating;
+    let userShelve = req.body.shelve;
     let GetuserResult = await bookModel.findById(req.params.bookId);
-    console.log("ygyytytvytvyvt",GetuserResult)
     const list = GetuserResult.userShelvesandReveiews.filter((el, err) => {
-        
         if (el.userId == req.params.userId) {
             return true;
         } else { return false }
     })
     //console.log(list[0])
-    if (!req.body.review) { userRevew = list[0].review };
+    if (!req.body.review) { userRevew = list[0].review }
     if (!req.body.rating) { userRate = list[0].rating };
     if (!req.body.shelve) { userShelve = list[0].shelve };
+    console.log(userRate);
     try {
         result = await bookModel.updateOne({
             '_id': req.params.bookId,
@@ -131,7 +137,7 @@ router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
                 'userShelvesandReveiews.$.shelve': userShelve
             }
         }, { upsert: true, new: true })
-        console.log(result.n)
+        //console.log(result.n)
         res.json(result.n);
     } catch (err) {
         res.json(err);
@@ -149,7 +155,7 @@ router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
                 },
             },
                 { new: true });
-            console.log(updateResult);
+            //console.log("hjfjfjhfjhfb",updateResult);
         } catch (err) {
             console.log(err);
         }
@@ -174,7 +180,7 @@ router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
         totalRatings: total_rating,
         avgRating: finalAverageRating
     }, { new: true })
-    console.log(updatedResult);
+    //console.log(updatedResult);
 })
 
 

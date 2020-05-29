@@ -24,7 +24,7 @@ class Author extends Component {
                     <div className="card">
                         <img className="cat1 card-img-top" src={author.authorImage} alt="econimics" />
                         {/*<h5 className="card-title">{book.name}</h5>*/}
-                        <Link to="#" className="card-link">{author.firstName} {author.lastName}</Link>
+                        <Link to={`/authorDetails/${author._id}`} className="card-link">{author.firstName} {author.lastName}</Link>
                         <p>{author.dateOfBirth}</p>
                     </div>
                 </div>

@@ -38,14 +38,18 @@ router.get('/', (request, response) => {
         response.json(allAuthors)
     })
 })
+
 router.get('/:authorID', (request, response) => {
+    AuthorModel.findById(request.params.authorID).exec((err, author) => {
+          response.json(author)
+    })
+})
+
+router.get('/books/:authorID', (request, response) => {
     const authorID = request.params.authorID
     bookModel.find({'authId': authorID}).exec((err, author) => {
         response.json(author)
     })
-    // AuthorModel.findById(authorID).exec((err, author) => {
-    //     response.json(author)
-    // })
 })
 router.get('/:authorID/details/:userId', (request, response) => {
     try{

@@ -91,7 +91,7 @@ router.get('/:userId/Read', async (req, resp) => {
 
 
 router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
-    console.log(req.body.rating)
+    console.log(req.body)
     global.total_rating = 0;
     global.average_rating = 0;
     global.result = 0;
@@ -105,7 +105,7 @@ router.patch('/userShelvesandReviews/:bookId/:userId', async (req, res) => {
             return true;
         } else { return false }
     })
-    //console.log(list[0])
+    console.log(list[0])
     if (!req.body.review) { userRevew = list[0].review }
     if (!req.body.rating) { userRate = list[0].rating };
     if (!req.body.shelve) { userShelve = list[0].shelve };

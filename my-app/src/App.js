@@ -14,6 +14,7 @@ import Catigories from './components/catigories/catigoris'
 import Book from './components/book/Book'
 import BookDetails from './components/bookDetails/BookDetails'
 import CategoryBooks from './components/categoryBooks/categoryBooks'
+import authorDetails from './components/AuthorDetails/authorDetails'
 import Footer from './components/footer/footer'
 import Author from './components/author/Auther'
 
@@ -153,6 +154,7 @@ class App extends Component {
               <Route path="/authors" component={Author}/>
               <Route path="/admin" component={BoardAdmin} />
               <Route exact path="/bookDetails/:id" component={BookDetails} />
+              <Route exact path="/authorDetails/:id" component={authorDetails} />
             </Switch>
           </div>
           <Footer/>

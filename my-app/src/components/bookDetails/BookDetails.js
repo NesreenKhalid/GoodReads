@@ -8,7 +8,6 @@ import AuthService from '../../services/auth.service'
 
 const BookDetails = (props) => {
     const { match: { params } } = props
-    //const bookId = params.location.pathname.split('/')[2];
     const bookId = params.id;
     const [book, setbook] = useState({});
     const [reviews, setReviews] = useState([]);
@@ -18,8 +17,11 @@ const BookDetails = (props) => {
     const [userReview, setUserReview] = useState('');
     const [submitted, setSubmitted] = useState(false)
     const [fuserId, setUserId] = useState("");
-    const [update, setUpdate] = useState(false)
-    useEffect(() => {
+    const [authorFirstName, setAuthorFirstName] = useState("");
+    const [authorSecondName, setAuthorSecondName] = useState("");
+    const [catName, setCatName] = useState("");
+
+    function getBook() {
         //setUserId(AuthService.getCurrentUser().id);
         const userId = AuthService.getCurrentUser().id;
         setUserId(userId)
@@ -28,61 +30,45 @@ const BookDetails = (props) => {
                 console.log(response.data);
                 setbook(response.data);
                 setReviews(response.data.userShelvesandReveiews);
+                console.log(response.data.userShelvesandReveiews)
                 const userItem = response.data.userShelvesandReveiews.filter((item) => {
-                    if (item._id === userId) { return true }
+                    if (item.userId === userId) { return true }
                     else { return false }
                 })
                 setUserShelvesandReviews(userItem[0]);
-                console.log(userItem[0])
+                setUserRating(userItem[0].rating)
+                setUserReview(userItem[0].review)
+                setUserShelve(userItem[0].shelve)
+                setAuthorFirstName(response.data.authId.firstName)
+                setAuthorSecondName(response.data.authId.secondName)
+                setCatName(response.data.catId.categoryName)
             })
             .catch((err) => {
                 console.log(err);
             });
-    }, []);
 
-    function sendRelevantData() {
-        if (userReview === '') { setUserReview(totaluserShelvesandReviews.review) };
-        if (userRating === 0) { setUserRating(totaluserShelvesandReviews.rating) };
-        if (userShelve === '') { setUserShelve(totaluserShelvesandReviews.shelve) }
     }
     useEffect(() => {
-        sendRelevantData();
-        console.log("useEffect entered")
+        getBook();
+    }, []);
+
+    useEffect(() => {
+        console.log(userRating);
         axios.patch(`http://localhost:8000/book/userShelvesandReviews/${bookId}/${fuserId}`,
-            { "review": userReview, "rating": userRating , "shelve": userShelve })
+            { "review": userReview, "rating": userRating, "shelve": userShelve })
             .then((success) => {
-                console.log(success);
-                const userId = AuthService.getCurrentUser().id;
-                setUserId(userId)
-                axios.get(`http://localhost:8000/book/${bookId}`)
-                    .then((response) => {
-                        console.log(response.data);
-                        //console.log(response.data.userShelvesandReveiews);
-                        setbook(response.data);
-                        setReviews(response.data.userShelvesandReveiews);
-                        const userItem = response.data.userShelvesandReveiews.filter((item) => {
-                            console.log(item.userId)
-                            console.log("jdknkjndkjnk",userId)
-                            if (item.userId === userId) { return true }
-                            else { return false }
-                        })
-                        setUserShelvesandReviews(userItem[0]);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
+                getBook()
             })
             .catch((failure) => {
                 console.log(failure);
             })
     }, [userRating, userShelve, submitted])
 
-    useEffect(()=>{
+    useEffect(() => {
         console.log(totaluserShelvesandReviews)
-    },[totaluserShelvesandReviews])
+    }, [totaluserShelvesandReviews])
 
     const totalReviews = reviews.map((item) => {
-        //if (item.userId === fuserId) { setUserShelvesandReviews(item) }
         return (
             <div className="card-body" key={item._id}>
                 <h5 className="card-title">{item.userId}</h5>
@@ -99,11 +85,10 @@ const BookDetails = (props) => {
                 <div className="bookcard" >
                     <div><img className="cat1 card-img-top" src={`http://localhost:8000/${book.image}`} alt="econimics" /></div>
                     <div className="dropdown">
-                        <p> current {totaluserShelvesandReviews ? totaluserShelvesandReviews.shelve : ""}</p>
-                        <DropdownButton id="dropdown-item-button" title={totaluserShelvesandReviews? totaluserShelvesandReviews.shelve : ""}>
+                        <DropdownButton id="dropdown-item-button" title={totaluserShelvesandReviews ? totaluserShelvesandReviews.shelve : ""}>
                             <Dropdown.Item as="button" onClick={(event) => setUserShelve('Wants to read')}>Want to read</Dropdown.Item>
                             <Dropdown.Item as="button" onClick={(event) => setUserShelve('Reading')}>Reading</Dropdown.Item>
-                            <Dropdown.Item as="button" onClick={(event) => setUserShelve('Read')}>read</Dropdown.Item>
+                            <Dropdown.Item as="button" onClick={(event) => setUserShelve('Read')}>Read</Dropdown.Item>
                         </DropdownButton>
                     </div>
 
@@ -113,11 +98,11 @@ const BookDetails = (props) => {
                 </div>
                 <div className="bookinfo">
                     <h2>{book.name}</h2>
-                    <h3>{book.authId}</h3>
-                    <h3>{book.catId}</h3>
+                    <h3>{authorFirstName}</h3><h3>{authorSecondName}</h3>
+                    <h3>{catName}</h3>
                     <div>
                         <Rating value={book.avgRating} max={5} readOnly={true} />
-                        <p>{book.totalRatings}</p>
+                        <h6>{book.totalRatings}</h6>
                     </div>
                 </div>
             </div>
@@ -128,7 +113,7 @@ const BookDetails = (props) => {
                     </div>
                     {totalReviews}
                 </div>
-                <form onSubmit={(e)=>{e.preventDefault(); setSubmitted(!submitted)}} >
+                <form onSubmit={(e) => { e.preventDefault(); setSubmitted(!submitted) }} >
                     <input type="text" onChange={(e) => { setUserReview(e.target.value); console.log(userReview) }}></input>
                     <input type="submit" value="Add Comment"></input>
                 </form>

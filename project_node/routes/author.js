@@ -100,13 +100,13 @@ router.post('/', upload.single('authorImage'), (req, res, next) => {
 })
 
 
-router.patch('/:authorID',async (request, response) => {
+router.patch('/:authorID',async (request, response,next) => {
 
     const authorData ={
         firstName:request.body.firstName,
         lastName:request.body.lastName,
         dateOfBirh:request.body.dateOfBirh,
-        authorImage:request.file?request.file.path: (await AuthorModel.findById(request.params.authorID).select('image -_id')).authorImage
+        authorImage:request.file?request.file.path: (await AuthorModel.findById(request.params.authorID).select('authorImage -_id')).authorImage
                     
     }
     try {

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
-import { useHistory } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import AuthService from "./services/auth.service";
@@ -19,8 +18,10 @@ import authorDetails from './components/AuthorDetails/authorDetails'
 import Footer from './components/footer/footer'
 import Author from './components/author/Auther'
 
-import ReactSearchBox from 'react-search-box'
-import { search } from './Utils/search'
+import Authors from './components/AdminBoard/AuthorsAdmin/Authors'
+import Categories from './components/AdminBoard/CategoriesAdmin/Categories'
+import Books from './components/AdminBoard/BooksAdmin/Books'
+import NavAdmin from './components/AdminBoard/NavBarAdmin/NavbarAdmin'
 
 class App extends Component {
   constructor(props) {
@@ -30,10 +31,7 @@ class App extends Component {
     this.state = {
 
       showAdminBoard: false,
-      currentUser: undefined,
-      books: null,
-      loading: false,
-      value: ''
+      currentUser: undefined
     };
   }
 
@@ -51,31 +49,6 @@ class App extends Component {
 
   logOut() {
     AuthService.logout();
-  }
-
-  search = async val => {
-    this.setState({ loading: true });
-    // const res = await axios(
-    const res = await search(`http://localhost:8000/book?search=${val}`);
-    const books = res;
-    console.log(books);
-    
-    this.setState({ books, loading: false });
-  };
-
-  onChangeHandler = async value => {
-    this.search(value);
-    this.setState({ value });
-    console.log(value);
-    
-
-  };
-  routeChange=(target)=> {
-    console.log(target);
-    
-    // let path = `/bookDetails/${target.id}`;
-    // let history = useHistory();
-    // history.push(path);
   }
 
   render() {
@@ -125,13 +98,14 @@ class App extends Component {
                 </li>
               )} */}
 
-              {showAdminBoard && (
+              {/* {showAdminBoard && (
                 <li className="nav-item">
                   <Link to={"/admin"} className="nav-link">
                     Admin Board
+                   < NavAdmin/>
                   </Link>
                 </li>
-              )}
+              )} */}
 
               {currentUser && (
                 <li className="nav-item">
@@ -142,18 +116,6 @@ class App extends Component {
               )}
             </div>
 
-
-            {/* <ReactSearchBox
-              placeholder="Search by Book Name"
-              value={this.state.value}
-              data={this.data?this.data:[{"result": "no books found"}]}
-              // callback={record => console.log(record)}
-              onChange={value => this.onChangeHandler(value)}
-              onSelect={target=>{
-                console.log(target);
-                // this.routeChange(target)               
-              }} 
-            /> */}
 
             {currentUser ? (
               <div className="navbar-nav ml-auto">
@@ -197,10 +159,13 @@ class App extends Component {
               <Route path="/catigories" component={Catigories} />
               <Route path="/books" component={Book} />
               <Route path="/authors" component={Author} />
-              <Route path="/admin" component={BoardAdmin} />
               <Route exact path="/bookDetails/:id" component={BookDetails} />
               <Route exact path="/authorDetails/:id" component={authorDetails} />
             </Switch>
+            <Route path="/admin/categories" component={Categories} />
+            <Route exact path="/admin/books" component={Books} />
+            <Route exact path="/admin/authors" component={Authors} />
+            <Route  exact path="/admin" component={Books} />
           </div>
           <Footer />
         </div>

@@ -120,7 +120,7 @@ export default class CreateBook extends Component {
 
                             <div className="form-group">
                                 <label>Category Id</label>
-                                <select id="lang" className="form-control" onChange={this.onChangeCategoryId} value='select'>
+                                <select id="lang" className="form-control" onChange={this.onChangeCategoryId}>
                                     {this.props.catagories.map((category) => <option key={category._id} value={category._id}>{category.categoryName}</option>)}
                                 </select>
                             </div>
@@ -135,7 +135,7 @@ export default class CreateBook extends Component {
                             <div className="form-group">
                                 <label>Author Name </label>
 
-                                <select id="lang2" className="form-control" onChange={this.onChangeAuthorId} value='select'>
+                                <select id="lang2" className="form-control" onChange={this.onChangeAuthorId} >
                                     {this.props.authors.map((author) => <option key={author._id} value={author._id}>{author.firstName}</option>)}
                                 </select>
 

@@ -50,23 +50,6 @@ export default class EditAuthor extends Component {
     onSubmit(e) {
         e.preventDefault()
 
-        // const bookObject = {
-        //     name: this.state.name,
-        //     image: this.state.image,
-        //     authId: this.state.authId,
-        //     catId: this.state.catId,
-        //     productionDate: this.state.productionDate
-        // };
-
-        // console.log(bookObject)
-        // axios.patch(`http://localhost:8000/book/${this.props.obj._id}`, bookObject)
-        // .then((res) => {
-        //     console.log(res.data)
-        //     alert("Book Updated Successfuly");
-        //     this.setState({ modal: false })
-        // }).catch((error) => {
-        //     console.log(error)
-        // });
         console.log(this.state.authorImage);
         const formData = new FormData()
         formData.append('name', this.state.name)

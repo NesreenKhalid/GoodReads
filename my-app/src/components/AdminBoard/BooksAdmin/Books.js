@@ -3,6 +3,7 @@ import axios from 'axios';
 import DataTable from './DataTable';
 import CreateBook from './CreateBook'
 import '../../AdminBoard/Styless.css';
+import NavAdmin from '../NavBarAdmin/NavbarAdmin'
 
 export default class Books extends Component {
 
@@ -70,20 +71,24 @@ export default class Books extends Component {
 
     render() {
         return (
+            <div>
+            < NavAdmin />
+
             <div className="wrapper-users">
                 <div className="row">
 
                     <CreateBook authors={this.state.AuthorsCollection} catagories={this.state.CatagoriesCollection} />
                 </div>
                 <div className="container">
-                    <table id='data' className="table table-striped mt-1 table-responsive">
-                        <thead className="thead-light">
+                    <table id='data' className="table  table-dark table-striped mt-1 table-responsive">
+                        <thead className="thead-dark">
                             <tr>
                                 <th>Id</th>
                                 <th>Name</th>
                                 <th>Image</th>
                                 <th>author Id</th>
                                 <th>category Id</th>
+                                <th>Production Date</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -92,6 +97,7 @@ export default class Books extends Component {
                         </tbody>
                     </table>
                 </div>
+            </div>
             </div>
         )
     }

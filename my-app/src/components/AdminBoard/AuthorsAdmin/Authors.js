@@ -3,6 +3,8 @@ import axios from 'axios';
 import DataTable from './DataTable';
 import AddAuthor from './AddAuthor';
 import '../../AdminBoard/Styless.css';
+import NavAdmin from '../NavBarAdmin/NavbarAdmin'
+
 
 export default class Authors extends Component {
 
@@ -38,13 +40,16 @@ export default class Authors extends Component {
 
     render() {
         return (
+            <div>
+            < NavAdmin />
+
             <div className="wrapper-users">
                 <div className="row">
 
                     <AddAuthor />
                 </div>
                 <div className="container">
-                    <table id='data' className="table table-striped mt-1 table-responsive">
+                    <table id='data' className="table table-dark table-striped mt-1 table-responsive">
                         <thead >
                             <tr>
                                 <th>ID</th>
@@ -60,6 +65,7 @@ export default class Authors extends Component {
                         </tbody>
                     </table>
                 </div>
+            </div>
             </div>
         )
     }

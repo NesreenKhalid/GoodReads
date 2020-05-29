@@ -3,6 +3,8 @@ import axios from 'axios';
 import DataTable from './DataTable';
 import CreateCategory from './CreateCategory'
 import '../../AdminBoard/Styless.css';
+import NavAdmin from '../NavBarAdmin/NavbarAdmin'
+
 
 export default class Categories extends Component {
 
@@ -37,23 +39,27 @@ export default class Categories extends Component {
 
     render() {
         return (
-            <div className="wrapper-users">
-                <div className="row">
-                    <CreateCategory />
-                </div>
-                <div className="container">
-                    <table id='data' className="table table-striped mt-1 table-responsive">
-                        <thead className="thead-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {this.dataTable()}
-                        </tbody>
-                    </table>
+            <div>
+                < NavAdmin />
+
+                <div className="wrapper-users">
+                    <div className="row">
+                        <CreateCategory />
+                    </div>
+                    <div className="container">
+                        <table id='data' className="table table-dark table-striped mt-1 " >
+                            <thead className="thead-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {this.dataTable()}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         )
